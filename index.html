@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fertility Follow-up in Pediatric Cancer Survivors - Research Survey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #374151;
+            background-color: #fafafa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        header {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1.5rem 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 2rem;
+            height: 2rem;
+            color: #7c3aed;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .badge {
+            background-color: #f3f4f6;
+            color: #6b7280;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+
+        /* Organization Logos Section */
+        .org-section {
+            background-color: rgba(255, 255, 255, 0.5);
+            border-bottom: 1px solid #e5e7eb;
+            padding: 2rem 0;
+        }
+
+        .org-content {
+            text-align: center;
+        }
+
+        .org-title {
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
+
+        .org-logos {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .org-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .org-logo {
+            height: 4rem;
+            object-fit: contain;
+        }
+
+        .org-caption {
+            font-size: 0.875rem;
+            color: #6b7280;
+            text-align: center;
+        }
+
+        /* Main Content */
+        main {
+            padding: 3rem 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #7c3aed;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+            max-width: 48rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-features {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .feature-icon {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #7c3aed;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-size: 1.125rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .cta-button:hover {
+            background-color: #6d28d9;
+        }
+
+        .cta-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            color: #7c3aed;
+        }
+
+        .card-content {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        /* Participation Details */
+        .participation-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .participation-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .participation-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .participation-subtitle {
+            color: #6b7280;
+            font-size: 1rem;
+        }
+
+        .participation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .participation-section h3 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .participation-list {
+            list-style: none;
+        }
+
+        .participation-list li {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+
+        .consent-text {
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        /* Contact Section */
+        .contact-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .contact-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .contact-section {
+            margin-bottom: 1rem;
+        }
+
+        .contact-section h3 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-email {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #7c3aed;
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        .contact-email:hover {
+            text-decoration: underline;
+        }
+
+        .contact-icon {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .ethics-text {
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        /* Footer */
+        footer {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-top: 1px solid #e5e7eb;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .footer-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .footer-logo {
+            height: 2rem;
+            object-fit: contain;
+            opacity: 0.6;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .org-logos {
+                flex-direction: row;
+                gap: 3rem;
+            }
+
+            .org-logo {
+                height: 5rem;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <span class="logo-text">Research Survey</span>
+                </div>
+                <div class="badge">
+                    Pediatric Oncofertility Consortium
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Organization Logos Section -->
+    <section class="org-section">
+        <div class="container">
+            <div class="org-content">
+                <h2 class="org-title">Research conducted by</h2>
+                <div class="org-logos">
+                    <div class="org-item">
+                        <img src="https://oncofertility.msu.edu/wp-content/themes/onco2022-sage909/dist/images/the_oncofertility_consortium_logo.png" 
+                             alt="The Oncofertility Consortium" class="org-logo">
+                        <span class="org-caption">The Oncofertility Consortium</span>
+                    </div>
+                    <div class="org-item">
+                        <img src="https://www.sinaihealth.ca/themes/custom/sinai_health/logo.svg" 
+                             alt="Sinai Health" class="org-logo">
+                        <span class="org-caption">Sinai Health - Ethics Committee Approval</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Hero Section -->
+            <div class="hero">
+                <h1>Fertility Follow-up in Pediatric Cancer Survivors</h1>
+                <p class="hero-subtitle">
+                    Contribute to vital research that will shape the future of fertility care for pediatric cancer survivors worldwide.
+                </p>
+
+                <div class="hero-features">
+                    <div class="feature-item">
+                        <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12,6 12,12 16,14"></polyline>
+                        </svg>
+                        <span>5 minutes</span>
+                    </div>
+                    <div class="feature-item">
+                        <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                        <span>Anonymous</span>
+                    </div>
+                    <div class="feature-item">
+                        <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        <span>Global clinicians</span>
+                    </div>
+                </div>
+
+                <a href="https://calogin.redcapcloud.com/survey.jsp?code=hUpFxCsBBBhmuWwz" 
+                   target="_blank" rel="noopener noreferrer" class="cta-button">
+                    Start Survey
+                    <svg class="cta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Survey Details Grid -->
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <svg class="card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            Who We Are
+                        </h3>
+                    </div>
+                    <div class="card-content">
+                        <p>This research is conducted by the Pediatric and Adolescent Committee (PAC), formerly the Pediatric Initiative Network (PIN) of the Oncofertility Consortium.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <svg class="card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            Survey Purpose
+                        </h3>
+                    </div>
+                    <div class="card-content">
+                        <p>Gather insights into how Reproductive Endocrinologists and Infertility clinicians worldwide manage fertility follow-up in pediatric cancer survivors.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <svg class="card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                            Your Privacy
+                        </h3>
+                    </div>
+                    <div class="card-content">
+                        <p>Your responses are completely anonymous. We do not collect personal identifying information, and responses are kept strictly confidential.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Participation Details -->
+            <div class="participation-card">
+                <div class="participation-header">
+                    <h2 class="participation-title">Participation Details</h2>
+                    <p class="participation-subtitle">Your voluntary participation helps advance pediatric oncofertility care</p>
+                </div>
+                <div class="participation-grid">
+                    <div class="participation-section">
+                        <h3>What to Expect:</h3>
+                        <ul class="participation-list">
+                            <li>• Short survey taking approximately 5 minutes</li>
+                            <li>• Questions about fertility follow-up practices</li>
+                            <li>• Skip any questions you prefer not to answer</li>
+                            <li>• Stop the survey at any point if needed</li>
+                        </ul>
+                    </div>
+                    <div class="participation-section">
+                        <h3>Your Rights:</h3>
+                        <ul class="participation-list">
+                            <li>• Participation is entirely voluntary</li>
+                            <li>• Complete anonymity guaranteed</li>
+                            <li>• No personal information collected</li>
+                            <li>• Responses cannot be linked back to you</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="consent-text">
+                    <p>By continuing to the survey, you indicate your consent to participate in this research study and to the use of your responses for research purposes.</p>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="contact-card">
+                <h2 class="contact-title">Questions or Concerns?</h2>
+                <div class="contact-section">
+                    <h3>Survey Questions:</h3>
+                    <a href="mailto:jennia.michaeli@sinaihealth.ca" class="contact-email">
+                        <svg class="contact-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        Dr. Jennia Michaeli - jennia.michaeli@sinaihealth.ca
+                    </a>
+                </div>
+                <div class="ethics-text">
+                    <p>For questions about your rights as a research participant, contact the Sinai Health Research Ethics Board (REB).</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>© 2025 Pediatric and Adolescent Committee, Oncofertility Consortium</p>
+                <p>Research conducted with ethical approval and participant consent</p>
+                <div class="footer-logos">
+                    <img src="https://oncofertility.msu.edu/wp-content/themes/onco2022-sage909/dist/images/the_oncofertility_consortium_logo.png" 
+                         alt="The Oncofertility Consortium" class="footer-logo">
+                    <img src="https://www.sinaihealth.ca/themes/custom/sinai_health/logo.svg" 
+                         alt="Sinai Health" class="footer-logo">
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
