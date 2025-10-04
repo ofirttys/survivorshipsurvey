@@ -71,6 +71,9 @@
 
         .org-content {
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .org-title {
@@ -84,22 +87,24 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             gap: 2rem;
+            width: 100%;
         }
 
         .org-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-			justify-content: center;
+            justify-content: center;
             gap: 0.5rem;
-			width: 100%;
-			max-width: 250px;
+            width: 100%;
+            max-width: 250px;
         }
 
         .org-logo {
             height: 4rem;
-			width: 100%;
+            width: 100%;
             object-fit: contain;
         }
 
@@ -118,6 +123,13 @@
         .hero {
             text-align: center;
             margin-bottom: 3rem;
+        }
+
+        .hero-pretitle {
+            font-size: 1.125rem;
+            color: #7c3aed;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
         }
 
         .hero h1 {
@@ -361,6 +373,7 @@
         @media (min-width: 768px) {
             .org-logos {
                 flex-direction: row;
+                justify-content: center;
                 gap: 3rem;
             }
 
@@ -428,6 +441,7 @@
         <div class="container">
             <!-- Hero Section -->
             <div class="hero">
+                <div class="hero-pretitle">Survey for REIs</div>
                 <h1>Fertility Follow-up in Pediatric Cancer Survivors</h1>
                 <p class="hero-subtitle">
                     Contribute to vital research that will shape the future of fertility care for pediatric cancer survivors worldwide.
