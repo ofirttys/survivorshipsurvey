@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fertility Preservation Survey</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #1a6b6b;
+    --teal-light: #2a9090;
+    --teal-pale: #e8f4f4;
+    --accent: #c8702a;
+    --text: #1c2b2b;
+    --muted: #5a7272;
+    --border: #c5dada;
+    --bg: #f7fafa;
+    --white: #ffffff;
+    --shadow: 0 4px 24px rgba(26,107,107,0.10);
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 60px 0;
+  }
+
+  /* HEADER */
+  .survey-header {
+    background: linear-gradient(135deg, var(--teal) 0%, #0d4848 100%);
+    color: white;
+    padding: 52px 40px 44px;
+    position: relative;
+    overflow: hidden;
+  }
+  .survey-header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+  }
+  .survey-header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 30%;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .header-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.9);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .survey-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 14px;
+    color: #fff;
+  }
+  .survey-header p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.75);
+    max-width: 560px;
+    line-height: 1.6;
+  }
+
+  /* PROGRESS */
+  .progress-wrap {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 16px 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .progress-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .progress-label {
+    font-size: 13px;
+    color: var(--muted);
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  .progress-bar-bg {
+    flex: 1;
+    height: 7px;
+    background: var(--teal-pale);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--teal-light));
+    border-radius: 4px;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+  .progress-pct {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--teal);
+    min-width: 36px;
+    text-align: right;
+  }
+
+  /* FORM BODY */
+  .form-body {
+    max-width: 820px;
+    margin: 40px auto 0;
+    padding: 0 20px;
+  }
+
+  /* SECTION DIVIDER */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 44px 0 24px;
+  }
+  .section-divider:first-child { margin-top: 0; }
+  .section-num {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--teal);
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--teal);
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* QUESTION CARD */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s;
+  }
+  .card:hover { box-shadow: 0 6px 30px rgba(26,107,107,0.13); }
+
+  .q-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+    line-height: 1.5;
+  }
+  .q-label .q-num {
+    color: var(--teal);
+    margin-right: 6px;
+  }
+  .q-hint {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-bottom: 18px;
+    font-style: italic;
+  }
+
+  /* TEXT INPUTS */
+  input[type="text"],
+  input[type="number"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 11px 15px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--text);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  textarea:focus,
+  select:focus {
+    border-color: var(--teal-light);
+    box-shadow: 0 0 0 3px rgba(42,144,144,0.12);
+    background: white;
+  }
+  textarea { resize: vertical; min-height: 80px; }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'%3E%3Cpath d='M1 1l6 7 6-7' stroke='%231a6b6b' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+    cursor: pointer;
+  }
+
+  /* GRID for sub-questions */
+  .input-grid {
+    display: grid;
+    gap: 14px;
+  }
+  .input-grid-2 { grid-template-columns: 1fr 1fr; }
+  .input-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  .sub-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  /* CHECKBOXES */
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .checkbox-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: var(--bg);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .checkbox-item:hover { background: var(--teal-pale); border-color: var(--teal-light); }
+  .checkbox-item input[type="checkbox"] {
+    width: 18px; height: 18px;
+    accent-color: var(--teal);
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .checkbox-item span { font-size: 14px; color: var(--text); line-height: 1.4; }
+  .checkbox-item.checked { background: var(--teal-pale); border-color: var(--teal); }
+
+  /* OTHER text reveal */
+  .other-input {
+    display: none;
+    margin-top: 8px;
+  }
+  .other-input.visible { display: block; }
+
+  /* RADIO */
+  .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .radio-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: var(--bg);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .radio-item:hover { background: var(--teal-pale); border-color: var(--teal-light); }
+  .radio-item input[type="radio"] {
+    width: 18px; height: 18px;
+    accent-color: var(--teal);
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .radio-item span { font-size: 14px; color: var(--text); line-height: 1.4; }
+  .radio-item.checked { background: var(--teal-pale); border-color: var(--teal); }
+
+  /* CONDITIONAL SECTION */
+  .conditional-block {
+    display: none;
+    margin-top: 20px;
+    padding: 22px 24px;
+    background: var(--teal-pale);
+    border-left: 3px solid var(--teal);
+    border-radius: 0 8px 8px 0;
+    animation: fadeIn 0.25s ease;
+  }
+  .conditional-block.visible { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+
+  .cond-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--teal);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .cond-label::before {
+    content: '↳';
+    font-size: 15px;
+  }
+
+  /* CURRENCY/NUMBER prefix inputs */
+  .prefix-input {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .prefix-input .prefix {
+    padding: 11px 12px;
+    background: var(--teal-pale);
+    border: 1.5px solid var(--border);
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+    font-size: 14px;
+    color: var(--teal);
+    font-weight: 600;
+  }
+  .prefix-input input {
+    border-radius: 0 8px 8px 0;
+    flex: 1;
+  }
+
+  /* SUBMIT */
+  .submit-zone {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px 32px;
+    margin-top: 32px;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .submit-zone p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+  .btn-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--teal), var(--teal-light));
+    color: white;
+    border: none;
+    padding: 15px 44px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 18px rgba(26,107,107,0.30);
+  }
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 24px rgba(26,107,107,0.38);
+  }
+  .btn-submit:active { transform: translateY(0); }
+
+  /* SUCCESS */
+  .success-msg {
+    display: none;
+    background: linear-gradient(135deg, #1a6b6b, #0d4848);
+    color: white;
+    border-radius: var(--radius);
+    padding: 48px 32px;
+    text-align: center;
+    margin-top: 32px;
+    box-shadow: var(--shadow);
+  }
+  .success-msg.visible { display: block; animation: fadeIn 0.4s ease; }
+  .success-msg h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    margin-bottom: 12px;
+  }
+  .success-msg p { color: rgba(255,255,255,0.8); font-size: 15px; }
+  .check-icon {
+    width: 64px; height: 64px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 28px;
+  }
+
+  @media (max-width: 640px) {
+    .survey-header { padding: 36px 20px 32px; }
+    .form-body { padding: 0 12px; }
+    .card { padding: 22px 18px; }
+    .input-grid-2, .input-grid-3 { grid-template-columns: 1fr; }
+    .progress-wrap { padding: 12px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="survey-header">
+  <div class="header-inner">
+    <div class="header-badge">Research Survey</div>
+    <h1>Fertility Preservation Program Survey</h1>
+    <p>This questionnaire collects information about ovarian tissue cryopreservation and fertility preservation services across Canadian fertility centres.</p>
+  </div>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <span class="progress-label">Progress</span>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+    <span class="progress-pct" id="progressPct">0%</span>
+  </div>
+</div>
+
+<div class="form-body">
+
+  <!-- SECTION A -->
+  <div class="section-divider">
+    <div class="section-num">A</div>
+    <span class="section-title">Clinic Information</span>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="card" data-q="1">
+    <div class="q-label"><span class="q-num">1.</span> Please indicate your clinic's name and location.</div>
+    <div class="q-hint">Free text — complete all fields below</div>
+    <div class="input-grid">
+      <div>
+        <label class="sub-label">a) Name of Clinic</label>
+        <input type="text" placeholder="e.g. Mount Sinai Fertility Centre" id="q1a">
+      </div>
+      <div class="input-grid input-grid-2">
+        <div>
+          <label class="sub-label">b) City</label>
+          <input type="text" placeholder="e.g. Toronto" id="q1b">
+        </div>
+        <div>
+          <label class="sub-label">c) Province</label>
+          <select id="q1c">
+            <option value="">Select province…</option>
+            <option>Alberta</option>
+            <option>British Columbia</option>
+            <option>Manitoba</option>
+            <option>New Brunswick</option>
+            <option>Newfoundland and Labrador</option>
+            <option>Nova Scotia</option>
+            <option>Ontario</option>
+            <option>Prince Edward Island</option>
+            <option>Quebec</option>
+            <option>Saskatchewan</option>
+            <option>Northwest Territories</option>
+            <option>Nunavut</option>
+            <option>Yukon</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION B -->
+  <div class="section-divider">
+    <div class="section-num">B</div>
+    <span class="section-title">Available Fertility Preservation Treatments</span>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="card" data-q="2">
+    <div class="q-label"><span class="q-num">2.</span> What fertility preserving treatments are available to cancer patients at your centre?</div>
+    <div class="q-hint">Multiple choice — select all that apply</div>
+    <div class="checkbox-group" id="q2group">
+      <label class="checkbox-item" id="chk2a">
+        <input type="checkbox" name="q2" value="embryo" onchange="toggleCheck(this)"> <span>Embryo cryopreservation</span>
+      </label>
+      <label class="checkbox-item" id="chk2b">
+        <input type="checkbox" name="q2" value="oocyte" onchange="toggleCheck(this)"> <span>Oocyte cryopreservation</span>
+      </label>
+      <label class="checkbox-item" id="chk2c">
+        <input type="checkbox" name="q2" value="otc" onchange="toggleCheck(this); showOTCSection(this)"> <span>Ovarian tissue cryopreservation (OTC)</span>
+      </label>
+      <label class="checkbox-item" id="chk2d">
+        <input type="checkbox" name="q2" value="sperm" onchange="toggleCheck(this)"> <span>Sperm cryopreservation</span>
+      </label>
+      <label class="checkbox-item" id="chk2e">
+        <input type="checkbox" name="q2" value="tese" onchange="toggleCheck(this)"> <span>Testicular Sperm Extraction (TESE)</span>
+      </label>
+      <label class="checkbox-item" id="chk2f">
+        <input type="checkbox" name="q2" value="prepubertal" onchange="toggleCheck(this)"> <span>Experimental pre-pubertal testicular tissue cryopreservation</span>
+      </label>
+      <label class="checkbox-item" id="chk2g">
+        <input type="checkbox" name="q2" value="none" onchange="toggleCheck(this)"> <span>None</span>
+      </label>
+      <label class="checkbox-item" id="chk2other">
+        <input type="checkbox" name="q2" value="other" onchange="toggleCheck(this); toggleOther('q2other', this)"> <span>Other (please specify)</span>
+      </label>
+      <div class="other-input" id="q2other">
+        <input type="text" placeholder="Please specify…">
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION C -->
+  <div class="section-divider" id="otcSection" style="display:none">
+    <div class="section-num">C</div>
+    <span class="section-title">Ovarian Tissue Cryopreservation (OTC) Program</span>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="card" data-q="3" id="q3card" style="display:none">
+    <div class="q-label"><span class="q-num">3.</span> If offering ovarian tissue cryopreservation, please complete the following:</div>
+    <div class="input-grid" style="gap:18px">
+      <div class="input-grid input-grid-2">
+        <div>
+          <label class="sub-label">a) When was the OTC program established?</label>
+          <input type="text" placeholder="e.g. 2018" id="q3a">
+        </div>
+        <div>
+          <label class="sub-label">b) When was the first procedure performed?</label>
+          <input type="text" placeholder="e.g. January 2019" id="q3b">
+        </div>
+      </div>
+      <div>
+        <label class="sub-label">c) How many patients has OTC been performed on to date?</label>
+        <input type="number" min="0" placeholder="Enter number" id="q3c">
+      </div>
+      <div>
+        <label class="sub-label">d) How many OTC procedures were performed in the past year?</label>
+        <input type="number" min="0" placeholder="Enter number" id="q3d">
+      </div>
+      <div class="input-grid input-grid-2">
+        <div>
+          <label class="sub-label">e) How many were pediatric (&lt;18 years)?</label>
+          <input type="number" min="0" placeholder="Enter number" id="q3e">
+        </div>
+        <div>
+          <label class="sub-label">f) How many were adults (≥18 years)?</label>
+          <input type="number" min="0" placeholder="Enter number" id="q3f">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="card" data-q="4" id="q4card" style="display:none">
+    <div class="q-label"><span class="q-num">4.</span> How many patients, if any, have had thawed ovarian tissue reimplanted at your centre?</div>
+    <div class="input-grid" style="gap:18px">
+      <div>
+        <label class="sub-label">Number of reimplantations</label>
+        <input type="number" min="0" placeholder="Enter number" id="q4count">
+      </div>
+      <div>
+        <label class="sub-label">a) In what anatomical locations was the tissue transplanted?</label>
+        <textarea placeholder="e.g. orthotopic (ovarian fossa), heterotopic (forearm, abdomen)…" id="q4a"></textarea>
+      </div>
+      <div>
+        <label class="sub-label">b) How many have resulted in pregnancies and live births?</label>
+        <div class="input-grid input-grid-2">
+          <div>
+            <label class="sub-label" style="margin-top:8px">Pregnancies</label>
+            <input type="number" min="0" placeholder="0" id="q4preg">
+          </div>
+          <div>
+            <label class="sub-label" style="margin-top:8px">Live Births</label>
+            <input type="number" min="0" placeholder="0" id="q4lb">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="card" data-q="5" id="q5card" style="display:none">
+    <div class="q-label"><span class="q-num">5.</span> What is the cost, if any, to patients associated with the following?</div>
+    <div class="q-hint">Enter estimated amounts in CAD; enter 0 if no cost, leave blank if unknown</div>
+    <div class="input-grid" style="gap:16px">
+      <div>
+        <label class="sub-label">a) Ovarian tissue harvesting</label>
+        <div class="prefix-input">
+          <span class="prefix">$</span>
+          <input type="number" min="0" placeholder="0.00" id="q5a">
+        </div>
+      </div>
+      <div>
+        <label class="sub-label">b) Ovarian tissue cryopreservation</label>
+        <div class="prefix-input">
+          <span class="prefix">$</span>
+          <input type="number" min="0" placeholder="0.00" id="q5b">
+        </div>
+      </div>
+      <div>
+        <label class="sub-label">c) Storage of ovarian tissue (per year)</label>
+        <div class="prefix-input">
+          <span class="prefix">$</span>
+          <input type="number" min="0" placeholder="0.00" id="q5c">
+        </div>
+      </div>
+      <div>
+        <label class="sub-label">d) What provincial coverage exists for this service?</label>
+        <textarea placeholder="Describe any OHIP or provincial funding available…" id="q5d"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="card" data-q="6" id="q6card" style="display:none">
+    <div class="q-label"><span class="q-num">6.</span> Does your centre perform IVM (in vitro maturation) for ovarian tissue-derived oocytes?</div>
+    <div class="radio-group" id="q6group" style="margin-top:14px">
+      <label class="radio-item">
+        <input type="radio" name="q6" value="yes" onchange="toggleRadio('q6group', this)"> <span>Yes</span>
+      </label>
+      <label class="radio-item">
+        <input type="radio" name="q6" value="no" onchange="toggleRadio('q6group', this)"> <span>No</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="card" data-q="7" id="q7card" style="display:none">
+    <div class="q-label"><span class="q-num">7.</span> Where do you perform ovarian tissue harvesting?</div>
+    <div class="q-hint">Select one</div>
+    <div class="radio-group" id="q7group" style="margin-top:14px">
+      <label class="radio-item">
+        <input type="radio" name="q7" value="in-clinic" onchange="toggleRadio('q7group', this); hideSpecify('q7partner','q7other7')"> <span>In our clinic</span>
+      </label>
+      <label class="radio-item">
+        <input type="radio" name="q7" value="partner" onchange="toggleRadio('q7group', this); showSpecify('q7partner','q7other7')"> <span>In a partner hospital (please specify below)</span>
+      </label>
+      <div class="other-input" id="q7partner">
+        <input type="text" placeholder="Name of partner hospital…">
+      </div>
+      <label class="radio-item">
+        <input type="radio" name="q7" value="other" onchange="toggleRadio('q7group', this); showSpecify('q7other7','q7partner')"> <span>Other (please specify)</span>
+      </label>
+      <div class="other-input" id="q7other7">
+        <input type="text" placeholder="Please specify…">
+      </div>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="card" data-q="8" id="q8card" style="display:none">
+    <div class="q-label"><span class="q-num">8.</span> Who performs the ovarian tissue harvesting?</div>
+    <div class="q-hint">Select one</div>
+    <div class="radio-group" id="q8group" style="margin-top:14px">
+      <label class="radio-item">
+        <input type="radio" name="q8" value="rei" onchange="toggleRadio('q8group', this); hideSpecify('q8other8','')"> <span>An affiliated REI (Reproductive Endocrinology & Infertility specialist)</span>
+      </label>
+      <label class="radio-item">
+        <input type="radio" name="q8" value="gyn" onchange="toggleRadio('q8group', this); hideSpecify('q8other8','')"> <span>Partner gynecologists (through referral)</span>
+      </label>
+      <label class="radio-item">
+        <input type="radio" name="q8" value="other" onchange="toggleRadio('q8group', this); showSpecify('q8other8','')"> <span>Other (please specify)</span>
+      </label>
+      <div class="other-input" id="q8other8">
+        <input type="text" placeholder="Please specify…">
+      </div>
+    </div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="card" data-q="9" id="q9card" style="display:none">
+    <div class="q-label"><span class="q-num">9.</span> Where do ovarian tissue samples undergo preparation, freezing and storage?</div>
+    <div class="q-hint">Select one</div>
+    <div class="radio-group" id="q9group" style="margin-top:14px">
+      <label class="radio-item">
+        <input type="radio" name="q9" value="onsite" onchange="toggleRadio('q9group', this); hideSpecify('q9other','q9other9')"> <span>In our clinic / on site</span>
+      </label>
+      <label class="radio-item">
+        <input type="radio" name="q9" value="other-site" onchange="toggleRadio('q9group', this); showSpecify('q9other','q9other9')"> <span>In another site/hospital (please specify)</span>
+      </label>
+      <div class="other-input" id="q9other">
+        <input type="text" placeholder="Name of site/hospital…">
+      </div>
+      <label class="radio-item">
+        <input type="radio" name="q9" value="other" onchange="toggleRadio('q9group', this); showSpecify('q9other9','q9other')"> <span>Other (please specify)</span>
+      </label>
+      <div class="other-input" id="q9other9">
+        <input type="text" placeholder="Please specify…">
+      </div>
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="card" data-q="10" id="q10card" style="display:none">
+    <div class="q-label"><span class="q-num">10.</span> For spoke sites (harvesting but not processing): how is transportation of tissue handled?</div>
+    <div class="checkbox-group" id="q10group" style="margin-top:14px">
+      <label class="checkbox-item">
+        <input type="checkbox" name="q10" value="family" onchange="toggleCheck(this)"> <span>Family transportation</span>
+      </label>
+      <label class="checkbox-item">
+        <input type="checkbox" name="q10" value="courier" onchange="toggleCheck(this)"> <span>Professional courier transportation</span>
+      </label>
+    </div>
+    <div style="margin-top:18px">
+      <label class="sub-label">Who pays for the transportation, and how much does it cost?</label>
+      <textarea placeholder="Describe payment responsibility and estimated cost…" id="q10cost"></textarea>
+    </div>
+  </div>
+
+  <!-- Q11 -->
+  <div class="card" data-q="11" id="q11card" style="display:none">
+    <div class="q-label"><span class="q-num">11.</span> Do you routinely offer OTC to patients referred for fertility preservation?</div>
+    <div class="radio-group" id="q11group" style="margin-top:14px">
+      <label class="radio-item">
+        <input type="radio" name="q11" value="yes" onchange="toggleRadio('q11group', this); document.getElementById('q11details').classList.add('visible')"> <span>Yes</span>
+      </label>
+      <label class="radio-item">
+        <input type="radio" name="q11" value="no" onchange="toggleRadio('q11group', this); document.getElementById('q11details').classList.remove('visible')"> <span>No</span>
+      </label>
+    </div>
+    <div class="conditional-block" id="q11details">
+      <div class="cond-label">If yes, which patient populations is OTC offered to?</div>
+      <div class="checkbox-group">
+        <label class="checkbox-item">
+          <input type="checkbox" name="q11pop" value="pediatric" onchange="toggleCheck(this)"> <span>Pediatric and adolescent patients</span>
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" name="q11pop" value="urgent-adult" onchange="toggleCheck(this)"> <span>Urgent adults who cannot delay cancer therapy for ovarian stimulation</span>
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" name="q11pop" value="transgender" onchange="toggleCheck(this)"> <span>Transgender patients</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION D -->
+  <div class="section-divider">
+    <div class="section-num">D</div>
+    <span class="section-title">If NOT Offering OTC</span>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- Q12 -->
+  <div class="card" data-q="12">
+    <div class="q-label"><span class="q-num">12.</span> If not offering ovarian tissue harvesting, cryopreservation and storage, what are the reasons?</div>
+    <div class="q-hint">Multiple choice — select all that apply</div>
+    <div class="checkbox-group" id="q12group">
+      <label class="checkbox-item">
+        <input type="checkbox" name="q12" value="no-demand" onchange="toggleCheck(this)"> <span>Not enough demand</span>
+      </label>
+      <label class="checkbox-item">
+        <input type="checkbox" name="q12" value="no-evidence" onchange="toggleCheck(this)"> <span>Not enough evidence to support its use</span>
+      </label>
+      <label class="checkbox-item">
+        <input type="checkbox" name="q12" value="referral" onchange="toggleCheck(this)"> <span>Referral to partner centre for ovarian tissue</span>
+      </label>
+      <label class="checkbox-item">
+        <input type="checkbox" name="q12" value="other" onchange="toggleCheck(this); toggleOther('q12other', this)"> <span>Other (please specify)</span>
+      </label>
+      <div class="other-input" id="q12other">
+        <input type="text" placeholder="Please specify other reason…">
+      </div>
+    </div>
+  </div>
+
+  <!-- Q13 -->
+  <div class="card" data-q="13">
+    <div class="q-label"><span class="q-num">13.</span> If not offering ovarian tissue harvesting, do you refer to a centre that does?</div>
+    <div class="radio-group" id="q13group" style="margin-top:14px">
+      <label class="radio-item">
+        <input type="radio" name="q13" value="yes" onchange="toggleRadio('q13group', this); document.getElementById('q13referral').classList.add('visible')"> <span>Yes</span>
+      </label>
+      <label class="radio-item">
+        <input type="radio" name="q13" value="no" onchange="toggleRadio('q13group', this); document.getElementById('q13referral').classList.remove('visible')"> <span>No</span>
+      </label>
+    </div>
+    <div class="conditional-block" id="q13referral">
+      <div class="cond-label">Which centre do you refer to?</div>
+      <input type="text" placeholder="Name of referral centre…">
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-zone">
+    <p>Please review all your responses before submitting. Once submitted, you will receive a confirmation of your entries.</p>
+    <button class="btn-submit" onclick="submitSurvey()">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 9l4 4 8-8" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Submit Survey
+    </button>
+  </div>
+
+  <div class="success-msg" id="successMsg">
+    <div class="check-icon">✓</div>
+    <h3>Thank you for your response!</h3>
+    <p>Your survey has been submitted successfully. Your contribution helps improve fertility preservation access across Canada.</p>
+  </div>
+
+</div><!-- /form-body -->
+
+<script>
+  // Toggle checkbox highlight
+  function toggleCheck(el) {
+    el.closest('.checkbox-item').classList.toggle('checked', el.checked);
+    updateProgress();
+  }
+
+  // Toggle radio highlight
+  function toggleRadio(groupId, el) {
+    document.querySelectorAll('#' + groupId + ' .radio-item').forEach(item => item.classList.remove('checked'));
+    el.closest('.radio-item').classList.add('checked');
+    updateProgress();
+  }
+
+  // Toggle "other" text field
+  function toggleOther(inputId, el) {
+    document.getElementById(inputId).classList.toggle('visible', el.checked);
+  }
+
+  // Show/hide specify fields for radios
+  function showSpecify(showId, hideId) {
+    if (showId) document.getElementById(showId).classList.add('visible');
+    if (hideId) document.getElementById(hideId).classList.remove('visible');
+  }
+  function hideSpecify(id1, id2) {
+    if (id1) document.getElementById(id1).classList.remove('visible');
+    if (id2) document.getElementById(id2).classList.remove('visible');
+  }
+
+  // Show OTC section on Q2 OTC checkbox
+  function showOTCSection(el) {
+    const show = el.checked;
+    const ids = ['otcSection','q3card','q4card','q5card','q6card','q7card','q8card','q9card','q10card','q11card'];
+    ids.forEach(id => {
+      const el2 = document.getElementById(id);
+      if (el2) el2.style.display = show ? '' : 'none';
+    });
+  }
+
+  // Progress tracking
+  function updateProgress() {
+    const cards = document.querySelectorAll('.card:not([style*="display: none"])');
+    let answered = 0;
+    cards.forEach(card => {
+      const hasText = Array.from(card.querySelectorAll('input[type="text"], input[type="number"], textarea')).some(el => el.value.trim() !== '');
+      const hasSelect = Array.from(card.querySelectorAll('select')).some(el => el.value !== '');
+      const hasCheck = Array.from(card.querySelectorAll('input[type="checkbox"], input[type="radio"]')).some(el => el.checked);
+      if (hasText || hasSelect || hasCheck) answered++;
+    });
+    const pct = Math.round((answered / cards.length) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressPct').textContent = pct + '%';
+  }
+
+  // Attach progress update to all inputs
+  document.querySelectorAll('input, textarea, select').forEach(el => {
+    el.addEventListener('input', updateProgress);
+    el.addEventListener('change', updateProgress);
+  });
+
+  // Submit
+  function submitSurvey() {
+    document.querySelector('.submit-zone').style.display = 'none';
+    document.getElementById('successMsg').classList.add('visible');
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('progressPct').textContent = '100%';
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
